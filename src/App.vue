@@ -5,15 +5,29 @@ import HistoryPomodoro from "./components/HistoryPomodoro.vue";
 </script>
 
 <template>
-  <header>
+  <header class="header">
     <h1>Pomodoro list by Davydov.dev</h1>
   </header>
 
-  <main>
+  <main class="main">
     <TodoList />
-    <PomodoroTimer />
-    <HistoryPomodoro />
+    <div class="pomodoro">
+      <PomodoroTimer />
+      <HistoryPomodoro />
+    </div>
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.header {
+  width: 100%;
+  padding: 10px 20px;
+  background: #ececec;
+}
+
+.main {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 20px;
+}
+</style>
