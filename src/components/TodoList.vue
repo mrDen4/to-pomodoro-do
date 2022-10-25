@@ -2,40 +2,82 @@
   <div class="todo-list">
     <h2 class="todo-list__title">Todo list</h2>
     <ul class="todo-list__list">
-      <li class="list__item">
-        <input type="checkbox" class="list__checkbox" id="123" />
-        <label for="123"></label>
-        <p class="list__text">Draw a prototype</p>
-      </li>
-      <li class="list__item">
-        <input type="checkbox" class="list__checkbox" id="124" />
-        <label for="124"></label>
-        <p class="list__text">Draw a prototype</p>
-      </li>
-      <li class="list__item">
-        <input type="checkbox" class="list__checkbox" id="125" />
-        <label for="125"></label>
-        <p class="list__text">Draw a prototype</p>
-      </li>
-      <li class="list__item">
-        <input type="checkbox" class="list__checkbox" id="126" />
-        <label for="126"></label>
-        <p class="list__text">Draw a prototype</p>
-      </li>
-      <li class="list__item">
-        <input type="checkbox" class="list__checkbox" id="127" />
-        <label for="127"></label>
-        <p class="list__text">Draw a prototype</p>
-      </li>
-      <li class="list__item">
-        <input type="checkbox" class="list__checkbox" id="128" />
-        <label for="128"></label>
-        <p class="list__text">Draw a prototype</p>
+      <li
+        class="list__item"
+        v-for="todo in todos"
+        :key="todo.id"
+        v-show="!todo.done"
+      >
+        <input
+          type="checkbox"
+          class="list__checkbox"
+          :id="todo.id"
+          v-model="todo.done"
+          @click="exportTodo"
+        />
+        <label :for="todo.id"></label>
+        <p class="list__text">{{ todo.title }}</p>
+        <p class="list__text list__text--date">{{ todo.date }}</p>
       </li>
     </ul>
-    <button class="todo-list__btn">Add new todo</button>
+    <input type="text" class="todo-list__inp" v-model="inputData" />
+    <button class="todo-list__btn" @click="addTodo">Add new todo</button>
+    <h3 class="todo-list__title">Done todo list</h3>
+    <ul class="todo-list__list">
+      <li
+        :class="todo.done ? 'list__item list__item--done' : 'list__item'"
+        v-for="todo in todos"
+        :key="todo.id"
+        v-show="todo.done"
+      >
+        <input
+          type="checkbox"
+          class="list__checkbox"
+          :id="todo.id"
+          v-model="todo.done"
+        />
+        <label :for="todo.id"></label>
+        <p class="list__text">{{ todo.title }}</p>
+        <p class="list__text list__text--date">{{ todo.date }}</p>
+      </li>
+    </ul>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      todos: [
+        {
+          id: 1,
+          title: "Draw a prototype",
+          date: new Date(2022, 10, 20).toLocaleString(),
+          done: false,
+        },
+        {
+          id: 2,
+          title: "Draw a prototype",
+          date: new Date().toLocaleString(),
+          done: true,
+        },
+      ],
+      inputData: "",
+    };
+  },
+  methods: {
+    addTodo() {
+      this.todos.push({
+        id: this.todos.length + 1,
+        title: this.inputData,
+        date: new Date().toLocaleString(),
+        done: false,
+      });
+      this.inputData = "";
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .todo-list {
@@ -70,6 +112,10 @@
   padding: 10px 20px;
   border-radius: 15px;
   margin-bottom: 20px;
+
+  &--done {
+    opacity: 0.5;
+  }
 }
 
 .list__checkbox {
@@ -128,6 +174,11 @@
 
 .list__text {
   font-size: 20px;
+
+  &--date {
+    margin-left: auto;
+    font-size: 15px;
+  }
 }
 
 .todo-list__btn {
@@ -143,5 +194,15 @@
   &:hover {
     opacity: 0.7;
   }
+}
+
+.todo-list__inp {
+  background: #fff;
+  border: 1px solid #49bcff;
+  border-radius: 15px;
+  width: 80%;
+  padding: 10px 20px;
+  font-size: 20px;
+  margin: 20px 0;
 }
 </style>
