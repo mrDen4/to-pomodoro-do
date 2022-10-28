@@ -3,13 +3,16 @@
     <h2 class="pomodoro-timer__title">Pomodoro Timer</h2>
     <div class="pomodoro-timer__container">
       <div class="container__numbers">
-        <div class="numbers__block">2</div>
-        <div class="numbers__block">5</div>
+        <div class="numbers__block">{{ Math.trunc((total / 60) % 60) }}</div>
       </div>
-      <button class="container__btn"></button>
+      <button
+        :class="
+          timerPlay ? 'container__btn container__btn--play' : 'container__btn'
+        "
+        @click="startTimer"
+      ></button>
       <div class="container__numbers">
-        <div class="numbers__block">0</div>
-        <div class="numbers__block">0</div>
+        <div class="numbers__block">{{ Math.trunc(this.total % 60) }}</div>
       </div>
     </div>
     <div class="pomodoro-timer__counts">
@@ -20,6 +23,29 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      total: 1500,
+      timerPlay: false,
+    };
+  },
+  methods: {
+    startTimer() {
+      this.timerPlay = true;
+      setInterval(() => {
+        if (this.total <= 0) {
+          alert("Дзынь");
+        } else {
+          this.total--;
+        }
+      }, 1000);
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .pomodoro-timer {
@@ -70,6 +96,10 @@
   width: 65px;
   height: 65px;
   margin: 0 10px;
+
+  &--play {
+    background: url("@/assets/pause.svg") center center no-repeat;
+  }
 }
 
 .pomodoro-timer__counts {

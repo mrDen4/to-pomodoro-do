@@ -1,5 +1,5 @@
 <script setup>
-import TodoList from "./components/TodoList.vue";
+import TodoWrap from "./components/todo/TodoWrap.vue";
 import PomodoroTimer from "./components/PomodoroTimer.vue";
 import HistoryPomodoro from "./components/HistoryPomodoro.vue";
 </script>
@@ -10,7 +10,7 @@ import HistoryPomodoro from "./components/HistoryPomodoro.vue";
   </header>
 
   <main class="main">
-    <TodoList />
+    <TodoWrap />
     <div class="pomodoro">
       <PomodoroTimer />
       <HistoryPomodoro />
