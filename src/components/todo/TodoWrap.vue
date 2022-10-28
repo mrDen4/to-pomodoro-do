@@ -1,8 +1,8 @@
 <template>
   <div class="todo-list">
     <TodoList :done="false" />
-    <TodoAdd />
     <TodoList :done="true" />
+    <TodoAdd />
   </div>
 </template>
 
@@ -21,11 +21,11 @@ export default {
 <style lang="scss" scoped>
 .todo-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 60%;
   background: #ececec;
   padding: 20px 0;
-  align-items: center;
   border-radius: 15px;
 }
 </style>

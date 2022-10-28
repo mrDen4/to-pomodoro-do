@@ -1,6 +1,6 @@
 <template>
   <li
-    class="list__item"
+    :class="done ? 'list__item list__item--done' : 'list__item'"
     v-for="todo in todos"
     :key="todo.id"
     v-show="done ? todo.done : !todo.done"
@@ -33,6 +33,7 @@ export default {
   padding: 10px 20px;
   border-radius: 15px;
   margin-bottom: 20px;
+  position: relative;
 
   &--done {
     opacity: 0.5;
@@ -94,11 +95,13 @@ export default {
 }
 
 .list__text {
-  font-size: 20px;
+  font-size: 18px;
 
   &--date {
-    margin-left: auto;
-    font-size: 15px;
+    position: absolute;
+    right: 0;
+    font-size: 10px;
+    width: 60px;
   }
 }
 </style>
