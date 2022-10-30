@@ -16,6 +16,7 @@ export default createStore({
         done: true,
       },
     ],
+    pomodoros: 0,
     todoInputData: "",
   },
   getters: {
@@ -24,6 +25,9 @@ export default createStore({
     },
     TODO_INPUT_DATA(state) {
       return state.todoInputData;
+    },
+    POMODOROS(state) {
+      return state.pomodoros;
     },
   },
   mutations: {
@@ -38,6 +42,12 @@ export default createStore({
     },
     updateTodoInput(state, message) {
       state.todoInputData = message;
+    },
+    ADD_POMODORO(state) {
+      state.pomodoros += 1;
+    },
+    CLEAR_POMODORO(state) {
+      state.pomodoros = 0;
     },
   },
 });

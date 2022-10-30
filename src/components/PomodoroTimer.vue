@@ -6,43 +6,94 @@
         <div class="numbers__block">{{ Math.trunc((total / 60) % 60) }}</div>
       </div>
       <button
-        :class="
-          timerPlay ? 'container__btn container__btn--play' : 'container__btn'
-        "
+        class="container__btn"
         @click="startTimer"
+        v-show="!this.timerPlay"
+      ></button>
+      <button
+        class="container__btn container__btn--pause"
+        @click="pauseTimer"
+        v-show="this.timerPlay"
+      ></button>
+      <button
+        class="container__btn container__btn--stop"
+        @click="stopTimer"
+        v-show="this.timerPlay || this.total < 1500"
       ></button>
       <div class="container__numbers">
         <div class="numbers__block">{{ Math.trunc(this.total % 60) }}</div>
       </div>
     </div>
     <div class="pomodoro-timer__counts">
-      <div class="counts__item counts__item--done"></div>
-      <div class="counts__item"></div>
-      <div class="counts__item"></div>
-      <div class="counts__item"></div>
+      <div
+        :class="
+          pomodoros >= 1 ? 'counts__item counts__item--done' : 'counts__item'
+        "
+      ></div>
+      <div
+        :class="
+          pomodoros >= 2 ? 'counts__item counts__item--done' : 'counts__item'
+        "
+      ></div>
+      <div
+        :class="
+          pomodoros >= 3 ? 'counts__item counts__item--done' : 'counts__item'
+        "
+      ></div>
+      <div
+        :class="
+          pomodoros >= 4 ? 'counts__item counts__item--done' : 'counts__item'
+        "
+      ></div>
     </div>
+    <p class="pomodoro-timer__statistic">
+      Выполнено за сегодня: {{ pomodoros }}
+    </p>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      total: 1500,
+      pomodoroTime: {
+        workTime: 2,
+        breakTime: 1,
+      },
+      total: 2,
       timerPlay: false,
+      interval: {},
     };
   },
   methods: {
+    ...mapMutations({ addPomodoro: "ADD_POMODORO" }),
     startTimer() {
       this.timerPlay = true;
-      setInterval(() => {
-        if (this.total <= 0) {
-          alert("Дзынь");
+      this.interval = setInterval(() => {
+        if (this.total <= 1 && this.pomodoros == 3) {
+          console.log("got it");
+          this.stopTimer();
+        } else if (this.total <= 1) {
+          this.stopTimer();
+          this.addPomodoro();
         } else {
           this.total--;
         }
       }, 1000);
     },
+    pauseTimer() {
+      this.timerPlay = false;
+      clearInterval(this.interval);
+    },
+    stopTimer() {
+      this.total = this.pomodoroTime.workTime;
+      clearInterval(this.interval);
+      this.timerPlay = false;
+    },
+  },
+  computed: {
+    ...mapGetters({ pomodoros: "POMODOROS" }),
   },
 };
 </script>
@@ -80,6 +131,9 @@ export default {
   font-size: 40px;
   padding: 20px 15px;
   margin-right: 10px;
+  width: 80px;
+  height: 90px;
+  text-align: center;
 
   &:last-child {
     margin: 0;
@@ -97,8 +151,12 @@ export default {
   height: 65px;
   margin: 0 10px;
 
-  &--play {
+  &--pause {
     background: url("@/assets/pause.svg") center center no-repeat;
+  }
+
+  &--stop {
+    background: url("@/assets/stop.svg") center center no-repeat;
   }
 }
 
