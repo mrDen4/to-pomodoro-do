@@ -1,7 +1,6 @@
 <script setup>
 import TodoWrap from "./components/todo/TodoWrap.vue";
 import PomodoroTimer from "./components/PomodoroTimer.vue";
-import HistoryPomodoro from "./components/HistoryPomodoro.vue";
 </script>
 
 <template>
@@ -13,7 +12,6 @@ import HistoryPomodoro from "./components/HistoryPomodoro.vue";
     <TodoWrap />
     <div class="pomodoro">
       <PomodoroTimer />
-      <HistoryPomodoro />
     </div>
   </main>
 </template>
@@ -29,5 +27,9 @@ import HistoryPomodoro from "./components/HistoryPomodoro.vue";
   display: flex;
   justify-content: space-around;
   padding-top: 20px;
+}
+
+.pomodoro {
+  width: 35%;
 }
 </style>

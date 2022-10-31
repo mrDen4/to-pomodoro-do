@@ -27,27 +27,35 @@
     <div class="pomodoro-timer__counts">
       <div
         :class="
-          pomodoros >= 1 ? 'counts__item counts__item--done' : 'counts__item'
+          pomodoros.nowPomodoro >= 1
+            ? 'counts__item counts__item--done'
+            : 'counts__item'
         "
       ></div>
       <div
         :class="
-          pomodoros >= 2 ? 'counts__item counts__item--done' : 'counts__item'
+          pomodoros.nowPomodoro >= 2
+            ? 'counts__item counts__item--done'
+            : 'counts__item'
         "
       ></div>
       <div
         :class="
-          pomodoros >= 3 ? 'counts__item counts__item--done' : 'counts__item'
+          pomodoros.nowPomodoro >= 3
+            ? 'counts__item counts__item--done'
+            : 'counts__item'
         "
       ></div>
       <div
         :class="
-          pomodoros >= 4 ? 'counts__item counts__item--done' : 'counts__item'
+          pomodoros.nowPomodoro >= 4
+            ? 'counts__item counts__item--done'
+            : 'counts__item'
         "
       ></div>
     </div>
     <p class="pomodoro-timer__statistic">
-      Выполнено за сегодня: {{ pomodoros }}
+      Выполнено за сегодня: {{ pomodoros.totalPomodoro }}
     </p>
   </div>
 </template>
@@ -58,21 +66,25 @@ export default {
   data() {
     return {
       pomodoroTime: {
-        workTime: 2,
+        workTime: 1500,
         breakTime: 1,
       },
-      total: 2,
+      total: 1500,
       timerPlay: false,
       interval: {},
     };
   },
   methods: {
-    ...mapMutations({ addPomodoro: "ADD_POMODORO" }),
+    ...mapMutations({
+      addPomodoro: "ADD_POMODORO",
+      clearPomodoro: "CLEAR_POMODORO",
+    }),
     startTimer() {
       this.timerPlay = true;
       this.interval = setInterval(() => {
-        if (this.total <= 1 && this.pomodoros == 3) {
-          console.log("got it");
+        if (this.total <= 1 && this.pomodoros.nowPomodoro == 3) {
+          this.addPomodoro();
+          this.clearPomodoro();
           this.stopTimer();
         } else if (this.total <= 1) {
           this.stopTimer();

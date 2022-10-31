@@ -16,7 +16,10 @@ export default createStore({
         done: true,
       },
     ],
-    pomodoros: 0,
+    pomodoros: {
+      totalPomodoro: 0,
+      nowPomodoro: 0,
+    },
     todoInputData: "",
   },
   getters: {
@@ -44,10 +47,11 @@ export default createStore({
       state.todoInputData = message;
     },
     ADD_POMODORO(state) {
-      state.pomodoros += 1;
+      state.pomodoros.totalPomodoro += 1;
+      state.pomodoros.nowPomodoro += 1;
     },
     CLEAR_POMODORO(state) {
-      state.pomodoros = 0;
+      state.pomodoros.nowPomodoro = 0;
     },
   },
 });

@@ -1,15 +1,14 @@
 <template>
-  <div class="todo-list__add-todo">
+  <form class="todo-list__add-todo" @submit.prevent="addTodo(inputData)">
     <input
       type="text"
       class="todo-list__inp"
+      autofocus
       :value="inputData"
       @input="updateTodoInput"
     />
-    <button class="todo-list__btn" @click="addTodo(inputData)">
-      Add new todo
-    </button>
-  </div>
+    <button class="todo-list__btn" type="submit">Add new todo</button>
+  </form>
 </template>
 
 <script>
